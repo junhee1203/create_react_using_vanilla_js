@@ -1,1 +1,1 @@
-# web-p2-reactcraft
+# Vanilla JS(TS)로 리액트 만들기
