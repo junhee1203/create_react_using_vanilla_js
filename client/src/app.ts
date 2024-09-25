@@ -31,14 +31,15 @@ function render() {
   const $button = document.querySelector('.append') as HTMLElement;
 
   $button.addEventListener('click', () => {
-    console.log('click')
+    const itmesLength = items.length;
+    setState({ id: itmesLength + 1, value: `item${itmesLength + 1}` });
   });
 }
 
-// function setState(newState: Item) {
-//   let state = items.push(newState);
-//   render();
-// }
+function setState(newState: Item) {
+  items.push(newState);
+  render();
+}
 
 async function initApp() {
   items = await fetchItemData();
