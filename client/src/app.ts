@@ -4,46 +4,67 @@ interface Item {
   value: string;
 }
 
-function fetchItemData(): Promise<Item[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: 1, value: 'item1' },
-        { id: 2, value: 'item2' },
-        { id: 3, value: 'item3' },
-      ]);
-    }, 0);
-  });
+abstract class Component<T> {
+  protected $target: HTMLElement;
+  protected state: T[];
+
+  constructor($target: HTMLElement) {
+    this.$target = $target;
+    this.state = [];
+    this.initialize();
+  }
+
+  private async initialize() {
+    this.state = await this.fetchState();
+    this.render();
+  }
+
+  render() {
+    this.$target.innerHTML = this.template();
+    this.setEvent()
+  }
+
+  setState(newState: T) {
+    this.state = [...this.state, newState];
+    this.render();
+  }
+
+  abstract fetchState(): Promise<T[]>;
+
+  abstract template(): string;
+
+  abstract setEvent(): void;
 }
 
-let items = [] as Item[];
+class ItemComponent extends Component<Item> {
+  fetchState(): Promise<Item[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          { id: 1, value: 'item1' },
+          { id: 2, value: 'item2' },
+          { id: 3, value: 'item3' },
+        ]);
+      }, 0);
+    });
+  }
 
-function render() {
-  const root = document.querySelector('#root') as HTMLElement;
-
-  root.innerHTML = `
-  <ul>
-    ${items.map((item) => `<li>${item.value}</li>`).join('')}
+  template(): string {
+    return `
+    <ul>
+    ${this.state.map((item) => `<li>${item.value}</li>`).join('')}
   </ul>
   <button class='append'>추가</button>
-  `;
+    `;
+  }
 
-  const $button = document.querySelector('.append') as HTMLElement;
-
-  $button.addEventListener('click', () => {
-    const itmesLength = items.length;
-    setState({ id: itmesLength + 1, value: `item${itmesLength + 1}` });
-  });
+  setEvent(): void {
+    const $button = this.$target.querySelector('.append') as HTMLElement;
+    $button.addEventListener('click', () => {
+      const itemsLength = this.state.length;
+      this.setState({ id: itemsLength + 1, value: `item${itemsLength + 1}` });
+    });
+  }
 }
 
-function setState(newState: Item) {
-  items.push(newState);
-  render();
-}
-
-async function initApp() {
-  items = await fetchItemData();
-  render();
-}
-
-initApp();
+new ItemComponent(document.querySelector('#root') as HTMLElement);

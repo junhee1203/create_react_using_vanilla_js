@@ -8,7 +8,10 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'client/src/legacy.ts'),
+        ],
         use: {
           loader: 'babel-loader',
           options: {
