@@ -16,27 +16,33 @@ function fetchItemData(): Promise<Item[]> {
   });
 }
 
-function createButton(): HTMLElement{
-  const $button = document.createElement('button')
-  $button.textContent = '추가'
+let items = [] as Item[];
 
-  return $button
-}
-
-async function render() {
-  const itmes = await fetchItemData();
+function render() {
   const root = document.querySelector('#root') as HTMLElement;
-  const $ul = document.createElement('ul');
-  const $button = createButton();
 
-  $ul.innerHTML += itmes.map((item) => `<li>${item.value}</li>`).join('');
+  root.innerHTML = `
+  <ul>
+    ${items.map((item) => `<li>${item.value}</li>`).join('')}
+  </ul>
+  <button class='append'>추가</button>
+  `;
 
-  $button.addEventListener('click',()=>{
+  const $button = document.querySelector('.append') as HTMLElement;
+
+  $button.addEventListener('click', () => {
     console.log('click')
-  })
-
-  root.append($ul);
-  root.append($button)
+  });
 }
 
-render()
+// function setState(newState: Item) {
+//   let state = items.push(newState);
+//   render();
+// }
+
+async function initApp() {
+  items = await fetchItemData();
+  render();
+}
+
+initApp();
