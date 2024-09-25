@@ -3,7 +3,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'none',
   entry: './client/src/app.ts',
   module: {
     rules: [
@@ -13,7 +12,11 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-typescript'],
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
+            ],
           },
         },
       },
@@ -32,7 +35,6 @@ module.exports = {
     path: path.resolve(__dirname, 'client', 'dist'),
   },
   devServer: {
-    // static: path.join(__dirname,'client', 'public'),
     compress: true,
     port: 9000,
     client: {
