@@ -1,8 +1,4 @@
-// app.ts
-interface Item {
-  id: number;
-  value: string;
-}
+import { Item } from "./types/state";
 
 function fetchItemData(): Promise<Item[]> {
   return new Promise((resolve) => {
