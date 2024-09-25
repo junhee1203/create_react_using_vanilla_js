@@ -2,8 +2,8 @@ import { ItemComponent } from './components/Item';
 
 class App {
   constructor() {
-    const root = document.querySelector('#root');
-    new ItemComponent(document.querySelector('#root') as HTMLElement);
+    const root = document.querySelector('#root') as HTMLElement;
+    new ItemComponent(root);
   }
 }
 
