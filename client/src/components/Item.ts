@@ -1,4 +1,5 @@
 // components/Item.ts
+import { ModuleSource } from 'module';
 import { Component } from '../core/Component';
 import { Item } from '../types/state';
 
@@ -32,21 +33,24 @@ export class ItemComponent extends Component<Item> {
   }
 
   setEvent(): void {
-    const $appendButton = this.$target.querySelector('.append') as HTMLElement;
-    $appendButton.addEventListener('click', () => {
-      const itemsLength = this.state.length;
-      this.setState({ id: itemsLength + 1, value: `item${itemsLength + 1}` });
-    });
-
-    const deleteButtons = this.$target.querySelectorAll<HTMLElement>('.deleteBtn');
-    deleteButtons.forEach((deleteButton) => {
-      deleteButton.addEventListener('click',(e: MouseEvent)=>{
-        if(e.target instanceof HTMLElement){
-          const deletingId = Number(e.target.dataset.id)
-          this.state = this.state.filter(item => item.id !== deletingId)
-          this.setState()
+    this.$target.addEventListener('click', (e: MouseEvent) => {
+      if (e.target instanceof HTMLElement) {
+        if (e.target.closest('.append')) {
+          const itemsLength = this.state.length;
+          const newItems = [
+            ...this.state,
+            { id: itemsLength + 1, value: `item${itemsLength + 1}` },
+          ];
+          this.setState(newItems);
         }
-      })
+
+        if (e.target.closest('.deleteBtn')) {
+          const deletingId = Number(e.target.dataset.id);
+          let items = [...this.state];
+          items = items.filter((item) => item.id !== deletingId);
+          this.setState(items);
+        }
+      }
     });
   }
 }

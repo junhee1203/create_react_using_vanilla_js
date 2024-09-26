@@ -1,4 +1,4 @@
-  // core/Component
+// core/Component
 export abstract class Component<T> {
   protected $target: HTMLElement;
   protected state: T[];
@@ -12,17 +12,15 @@ export abstract class Component<T> {
   private async initialize() {
     this.state = await this.fetchState();
     this.render();
+    this.setEvent();
   }
 
   render() {
     this.$target.innerHTML = this.template();
-    this.setEvent();
   }
 
-  setState(newState: T | null = null) {
-    if(newState){
-      this.state = [...this.state, newState];
-    }
+  setState(newState: T[]) {
+    this.state = newState;
     this.render();
   }
 
