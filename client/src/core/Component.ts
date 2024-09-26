@@ -1,3 +1,4 @@
+  // core/Component
 export abstract class Component<T> {
   protected $target: HTMLElement;
   protected state: T[];
@@ -18,8 +19,10 @@ export abstract class Component<T> {
     this.setEvent();
   }
 
-  setState(newState: T) {
-    this.state = [...this.state, newState];
+  setState(newState: T | null = null) {
+    if(newState){
+      this.state = [...this.state, newState];
+    }
     this.render();
   }
 
