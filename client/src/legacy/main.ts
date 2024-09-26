@@ -1,4 +1,4 @@
-import { ItemComponent } from './components/Item';
+import { ItemComponent } from './Item';
 
 class App {
   constructor() {
@@ -7,4 +7,4 @@ class App {
   }
 }
 
-new App()
+new App();
