@@ -28,6 +28,7 @@ export class ItemComponent extends Component<Item> {
       )
       .join('')}
   </ul>
+  <input type='text' class='appender'>
   <button class='append'>추가</button>
     `;
   }
@@ -35,9 +36,11 @@ export class ItemComponent extends Component<Item> {
   setEvent(): void {
     this.addEvent('click', '.append', () => {
       const itemsLength = this.state.length;
+      const $input = document.querySelector('.appender') as HTMLInputElement;
+      const itemValue = $input.value;
       const newItems = [
         ...this.state,
-        { id: itemsLength + 1, value: `item${itemsLength + 1}` },
+        { id: itemsLength + 1, value: itemValue },
       ];
       this.setState(newItems);
     });
