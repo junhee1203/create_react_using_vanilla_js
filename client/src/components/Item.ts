@@ -33,23 +33,21 @@ export class ItemComponent extends Component<Item> {
   }
 
   setEvent(): void {
-    this.$target.addEventListener('click', (e: MouseEvent) => {
-      if (e.target instanceof HTMLElement) {
-        if (e.target.closest('.append')) {
-          const itemsLength = this.state.length;
-          const newItems = [
-            ...this.state,
-            { id: itemsLength + 1, value: `item${itemsLength + 1}` },
-          ];
-          this.setState(newItems);
-        }
+    this.addEvent('click', '.append', () => {
+      const itemsLength = this.state.length;
+      const newItems = [
+        ...this.state,
+        { id: itemsLength + 1, value: `item${itemsLength + 1}` },
+      ];
+      this.setState(newItems);
+    });
 
-        if (e.target.closest('.deleteBtn')) {
-          const deletingId = Number(e.target.dataset.id);
-          let items = [...this.state];
-          items = items.filter((item) => item.id !== deletingId);
-          this.setState(items);
-        }
+    this.addEvent('click', '.deleteBtn', (e) => {
+      if (e.target instanceof HTMLElement) {
+        const deletingId = Number(e.target.dataset.id);
+        let items = [...this.state];
+        items = items.filter((item) => item.id !== deletingId);
+        this.setState(items);
       }
     });
   }

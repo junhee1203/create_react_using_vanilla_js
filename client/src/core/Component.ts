@@ -24,6 +24,16 @@ export abstract class Component<T> {
     this.render();
   }
 
+  addEvent(eventType: string, selector: string, callback: (e: Event) => void) {
+    this.$target.addEventListener(eventType, (e: Event) => {
+      if (e.target instanceof HTMLElement) {
+        if (e.target.closest(selector)) {
+          callback(e);
+        }
+      }
+    });
+  }
+
   abstract fetchState(): Promise<T[]>;
 
   abstract template(): string;
