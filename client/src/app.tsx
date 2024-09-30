@@ -1,11 +1,8 @@
-/** @jsx createElement */
-import { createElement } from './core/createElement';
+/** @jsx React.createElement */
+import { React } from './core/React';
+import { App } from './components/Todo';
 
-const element = (
-  <div className='app'>
-    <p>
-      hello world!
-    </p>
-  </div>
-);
-console.log(element);
+
+const container = document.getElementById('root');
+
+React.render(<App />, container as HTMLElement);

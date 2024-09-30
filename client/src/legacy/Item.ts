@@ -1,7 +1,6 @@
 // components/Item.ts
-import { ModuleSource } from 'module';
 import { Component } from './Component';
-import { Item } from './types/state';
+import { Item } from '../types/Item';
 
 export class ItemComponent extends Component<Item> {
   fetchState(): Promise<Item[]> {

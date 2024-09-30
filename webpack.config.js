@@ -1,4 +1,5 @@
 // webpack.config.js
+// path.resolve(__dirname, 'client/src/legacy')
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -8,22 +9,8 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|js)x?$/,
-        exclude: [/node_modules/, path.resolve(__dirname, 'client/src/legacy')],
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-typescript'],
-            plugins: [
-              [
-                '@babel/plugin-transform-react-jsx',
-                {
-                  pragma: 'createElement', 
-                  // pragmaFrag: 'Fragment', 
-                },
-              ],
-            ],
-          },
-        },
+        exclude: [/node_modules/],
+        use: 'babel-loader',
       },
     ],
   },
