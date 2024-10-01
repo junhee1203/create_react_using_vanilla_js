@@ -28,8 +28,10 @@ export class React {
     Object.entries(node.props || {})
       .filter(([attr, value]) => value)
       .forEach(([attr, value]) => {
-        if ((attr == 'className')) {
+        if (attr == 'className') {
           $el.setAttribute('class', value);
+        } else if (attr.startsWith('on') && typeof value == 'function') {
+          $el.addEventListener(attr.slice(2).toLowerCase(), value);
         } else {
           $el.setAttribute(attr, value);
         }
