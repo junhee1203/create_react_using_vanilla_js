@@ -7,5 +7,7 @@ npm i
 npm run dev
 ```
 
-## 개발 일지
-[📄 노션 링크](https://junhyi.notion.site/react-craft-10a067071e698014b438e9d699afc856?pvs=74)
+## 정리 내용
+[class 기반한 컴포넌트 만들기](https://junhee1203.tistory.com/16)
+<br>
+[가상돔 만들기](https://junhee1203.tistory.com/17)
