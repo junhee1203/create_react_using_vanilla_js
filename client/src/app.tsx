@@ -1,8 +1,7 @@
-/** @jsx React.createElement */
-import { React } from './core/React';
-import { App } from './components/Todo';
+/** @jsx React.createElement */import { App } from './components/Todo';
+import { updateDOM } from './core/dom';
 
+const container = document.getElementById('root') as HTMLElement;
 
-const container = document.getElementById('root');
-
-React.render(<App />, container as HTMLElement);
+// 초기 렌더링
+updateDOM(() => App(), container);

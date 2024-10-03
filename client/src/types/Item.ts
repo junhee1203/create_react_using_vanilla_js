@@ -1,6 +1,6 @@
-interface Item {
+interface TodoItem {
   id: number;
   value: string;
+  completed: boolean;
 }
-
-export type {Item}
+export type {TodoItem}

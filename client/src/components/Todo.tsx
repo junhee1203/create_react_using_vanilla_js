@@ -1,46 +1,65 @@
 /** @jsx React.createElement */
-import { React } from '../core/React';
-import { Item } from '../types/Item';
+import { TodoItem } from '../types/Item';
+import { updateDOM } from './../core/dom';
 
-let state: Item[] = [
-  { id: 1, value: 'item 1' },
-  { id: 2, value: 'item 2' },
-];
+export const App = (() => {
+  // 클로저를 사용하여 상태를 유지합니다
+  let state: TodoItem[] = [
+    { id: 1, value: 'item 1', completed: false },
+    { id: 2, value: 'item 2', completed: false },
+  ];
 
-export const App = (): JSX.Element => {
-  const addItem = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const $input = document.querySelector('.add-input') as HTMLInputElement;
-    const inputValue = $input.value;
-    const root = document.getElementById('root') as HTMLElement;
-    state = [...state, { id: state.length + 1, value: inputValue }];
-    root.innerHTML = '';
-    React.render(<App />, root);
+  const rerender = () => {
+    const root = document.getElementById('root');
+    if (root) {
+      updateDOM(App, root);
+    }
   };
 
-  return (
-    <div id="app">
-      <ul>
-        {state.map((item) => (
-          <li>
-            <input type="checkbox" className="toggle" />
-            {item.value}
-            <button className="remove">삭제</button>
-          </li>
-        ))}
-      </ul>
-      <form>
-        <input type="text" className="add-input" />
-        <button
-          className="add"
-          type="submit"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            addItem(e);
-          }}
-        >
-          추가
-        </button>
-      </form>
-    </div>
-  );
-};
+  return (): JSX.Element => {
+    const addItem = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.target as HTMLFormElement;
+      const input = form.elements.namedItem('addInput') as HTMLInputElement;
+      const inputValue = input.value.trim();
+      if (inputValue) {
+        state = [
+          ...state,
+          { id: Date.now(), value: inputValue, completed: false },
+        ];
+        input.value = '';
+        rerender();
+      }
+    };
+
+    const removeItem = (id: number) => {
+      state = state.filter((item) => item.id !== id);
+      rerender();
+    };
+
+    console.log('Current state:', state); // 디버깅을 위한 로그
+
+    return (
+      <div id="app">
+        <ul>
+          {state.map((item) => (
+            <li key={item.id}>
+              <span
+                style={{
+                  textDecoration: item.completed ? 'line-through' : 'none',
+                }}
+              >
+                {item.value}
+              </span>
+              <button onClick={() => removeItem(item.id)}>삭제</button>
+            </li>
+          ))}
+        </ul>
+        <form onSubmit={addItem}>
+          <input type="text" name="addInput" />
+          <button type="submit">추가</button>
+        </form>
+      </div>
+    );
+  };
+})();

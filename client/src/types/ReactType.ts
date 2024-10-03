@@ -1,13 +1,19 @@
-type Props = Record<string, any>;
+type Props = { [key: string]: any };
 
-interface FunctionComponent {
-  (): VirtualDOM;
+type VNode =
+  | string
+  | { type: string; props: Props; children: VNode[] }
+  | JSX.Element;
+
+type DiffResult =
+  | { type: 'CREATE' | 'REPLACE'; newNode: VNode }
+  | { type: 'REMOVE' }
+  | { type: 'UPDATE'; props: Props | null; children: ChildDiff[] };
+
+type ChildDiff = DiffResult & { index: number };
+
+interface Container extends HTMLElement {
+  __virtualDOM?: VNode;
 }
 
-interface VirtualDOM {
-  type: string | FunctionComponent;
-  props?: Props;
-  children?: (VirtualDOM | string)[];
-}
-
-export type {Props, FunctionComponent, VirtualDOM}
+export type { Props, VNode, DiffResult, ChildDiff, Container };
